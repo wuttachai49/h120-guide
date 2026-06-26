@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-120 Reagent Guide - Interactive Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        nav a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #d32f2f 0%, #f57c00 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Reagent Cards */
+        .reagent-card {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .reagent-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .reagent-header {
+            padding: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .reagent-icon {
+            font-size: 48px;
+        }
+
+        .reagent-header h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .reagent-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Reagent Colors */
+        .reagent-1 { background: linear-gradient(135deg, #d32f2f 0%, #f57c00 100%); } /* Hemolysis - Red/Orange */
+        .reagent-2 { background: linear-gradient(135deg, #1976d2 0%, #0097a7 100%); } /* Eluent A - Blue */
+        .reagent-3 { background: linear-gradient(135deg, #0097a7 0%, #00695c 100%); } /* Eluent B - Teal */
+        .reagent-4 { background: linear-gradient(135deg, #6a1b9a 0%, #512da8 100%); } /* Column - Purple */
+        .reagent-5 { background: linear-gradient(135deg, #f57f17 0%, #ff6f00 100%); } /* Filter - Gold */
+
+        .reagent-content {
+            padding: 30px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .content-block h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .content-block p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .content-block ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-block li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f8f9fa;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .spec-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .spec-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .spec-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: white;
+            padding: 15px 25px;
+            margin: 10px 5px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 120px;
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        /* Role Box */
+        .role-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f1ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .role-box strong {
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        /* Important Alert */
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .alert strong {
+            color: #856404;
+        }
+
+        /* Troubleshooting */
+        .troubleshooting {
+            margin-top: 25px;
+        }
+
+        .trouble-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+        }
+
+        .trouble-problem {
+            color: #d32f2f;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .trouble-cause {
+            color: #f57c00;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .trouble-fix {
+            color: #388e3c;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .summary-item strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .summary-item span {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .flow-step {
+                font-size: 12px;
+                padding: 10px 15px;
+                min-width: 100px;
+            }
+
+            .flow-arrow {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="H120-Chromatogram-Guide.html">📊 Chromatogram</a></li>
+            <li><a href="reagent-guide.html" class="active">🧪 Reagents</a></li>
+            <li><a href="project-summary.html">📋 Project</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🧪 H-120 Reagent & Consumables Guide</h1>
+        <p>Complete specifications, roles, and troubleshooting for all reagents</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Overview -->
+        <div style="background: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h2 style="color: #1e3c72; margin-bottom: 15px;">🔬 Reagent System Overview</h2>
+            <p style="line-height: 1.8; margin-bottom: 15px;">
+                The H-120 uses a <strong>gradient elution HPLC system</strong> with 3 main consumables that work together to separate and quantify hemoglobin variants. Understanding each reagent's role is crucial for optimal performance and troubleshooting.
+            </p>
+
+            <div class="summary-box">
+                <h3>Quick Reference: Reagent Consumption</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>Traditional HPLC</strong>
+                        <span>6 reagent cycles per test</span>
+                    </div>
+                    <div class="summary-item" style="background: rgba(34,139,34,0.3); border: 2px solid #388e3c;">
+                        <strong>H-120 (Patented)</strong>
+                        <span>0.3 reagent cycles per test</span>
+                    </div>
+                    <div class="summary-item" style="background: rgba(34,139,34,0.3); border: 2px solid #388e3c;">
+                        <strong>Savings</strong>
+                        <span>95% less reagent waste! 💰</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REAGENT 1: Hemolysis Solution -->
+        <div class="reagent-card">
+            <div class="reagent-header reagent-1">
+                <div class="reagent-icon">🧬</div>
+                <div>
+                    <h2>Hemolysis Solution (H-12H)</h2>
+                    <p>Lyses red blood cells to release hemoglobin for analysis</p>
+                </div>
+            </div>
+            <div class="reagent-content">
+                <div class="role-box">
+                    <strong>🎯 Primary Role:</strong> Breaks open RBCs → releases hemoglobin → prepares sample for HPLC injection
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📋 Specifications</h3>
+                        <table class="spec-table">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Package</strong></td>
+                                <td>5.6L bottle</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Storage</strong></td>
+                                <td>2-8°C (refrigerated)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shelf Life</strong></td>
+                                <td>12 months unopened</td>
+                            </tr>
+                            <tr>
+                                <td><strong>pH</strong></td>
+                                <td>10.4-10.6</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Osmolality</strong></td>
+                                <td>270-290 mOsm/kg</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>⚙️ How It Works</h3>
+                        <div class="flow-diagram">
+                            <div class="flow-step">Whole Blood (10µL)</div>
+                            <div class="flow-arrow">+</div>
+                            <div class="flow-step">Hemolysis Solution</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">RBCs Rupture</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">Hb Released</div>
+                        </div>
+                        <p style="margin-top: 15px; text-align: left;"><strong>Key Components:</strong></p>
+                        <ul>
+                            <li>Non-ionic detergent (breaks cell membrane)</li>
+                            <li>Carbonate buffer (pH ~10.5)</li>
+                            <li>Osmotic agent (prevents Hb denaturation)</li>
+                            <li>Preservative (prevents bacterial growth)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ Critical Factor:</strong> pH must stay between 10.4-10.6. If pH drifts, hemoglobin charge changes, affecting separation! Check pH weekly with calibrated meter.
+                </div>
+
+                <div class="troubleshooting">
+                    <h3 style="color: #1e3c72; margin-bottom: 15px;">🔧 Troubleshooting</h3>
+                    <div class="trouble-item">
+                        <div class="trouble-problem">❌ Hemolyzed sample looks brown/dark</div>
+                        <div class="trouble-cause">🔍 Cause: Oxidized hemoglobin (old solution)</div>
+                        <div class="trouble-fix">✅ Fix: Replace solution bottle, check refrigeration</div>
+                    </div>
+                    <div class="trouble-item">
+                        <div class="trouble-problem">❌ Inconsistent results between tubes</div>
+                        <div class="trouble-cause">🔍 Cause: Uneven hemolysis (wrong volume ratio)</div>
+                        <div class="trouble-fix">✅ Fix: Verify 1:10-1:20 sample to hemolysate ratio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REAGENT 2: Eluent A -->
+        <div class="reagent-card">
+            <div class="reagent-header reagent-2">
+                <div class="reagent-icon">🌊</div>
+                <div>
+                    <h2>Eluent A (H-12A) - Primary Buffer</h2>
+                    <p>Low-salt buffer that elutes weakly-bound hemoglobin first</p>
+                </div>
+            </div>
+            <div class="reagent-content">
+                <div class="role-box">
+                    <strong>🎯 Primary Role:</strong> Creates low-ionic environment → HbA1c elutes FIRST (~1.5 min) → begins gradient transition
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📋 Specifications</h3>
+                        <table class="spec-table">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Package</strong></td>
+                                <td>1.5L bottle</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Storage</strong></td>
+                                <td>Room temp (15-25°C)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shelf Life</strong></td>
+                                <td>12 months unopened</td>
+                            </tr>
+                            <tr>
+                                <td><strong>pH</strong></td>
+                                <td>8.9-9.1 (CRITICAL!)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ionic Strength</strong></td>
+                                <td>Low (~0.05 M)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🔬 Gradient Elution Concept</h3>
+                        <p style="margin-bottom: 10px;"><strong>How Eluent A enables peak separation:</strong></p>
+                        <div class="flow-diagram" style="text-align: left;">
+                            <p><strong>Eluent A (LOW salt):</strong> Weak Hb charge → Binds to column → HbA1c elutes first</p>
+                            <p><strong>Gradient transition:</strong> Salt ↑ gradually → Variants elute in sequence</p>
+                            <p><strong>Eluent B (HIGH salt):</strong> Strong Hb charge → Cannot bind → HbA0, HbA2 elute last</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>⚠️ pH SENSITIVITY:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>pH 8.5: HbA1c elutes too fast ❌</li>
+                        <li>pH 8.9-9.1: OPTIMAL separation ✅</li>
+                        <li>pH 9.3: HbA1c elutes too slowly ❌</li>
+                    </ul>
+                </div>
+
+                <div class="troubleshooting">
+                    <h3 style="color: #1e3c72; margin-bottom: 15px;">🔧 Troubleshooting</h3>
+                    <div class="trouble-item">
+                        <div class="trouble-problem">❌ HbA1c eluting at wrong time</div>
+                        <div class="trouble-cause">🔍 Cause: Eluent A pH drifted (< 8.8 or > 9.2)</div>
+                        <div class="trouble-fix">✅ Fix: Replace Eluent A; verify pH weekly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REAGENT 3: Eluent B -->
+        <div class="reagent-card">
+            <div class="reagent-header reagent-3">
+                <div class="reagent-icon">🧂</div>
+                <div>
+                    <h2>Eluent B (H-12B) - High-Salt Buffer</h2>
+                    <p>High-salt buffer that repels hemoglobin from column (complete elution)</p>
+                </div>
+            </div>
+            <div class="reagent-content">
+                <div class="role-box">
+                    <strong>🎯 Primary Role:</strong> High salt concentration → Elutes all remaining Hb → Column cleanup → Ready for next sample
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📋 Specifications</h3>
+                        <table class="spec-table">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Package</strong></td>
+                                <td>250mL bottle (small!)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Storage</strong></td>
+                                <td>Room temp, light-protected</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Salt Concentration</strong></td>
+                                <td>HIGH (~0.3-0.4 M)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Consumption</strong></td>
+                                <td>Much lower than Eluent A</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>💡 Why Gradient Elution Matters</h3>
+                        <p><strong>H-120's Competitive Advantage:</strong></p>
+                        <p style="color: #388e3c; font-weight: 600; margin: 10px 0;">✅ Gradient Elution (H-120)</p>
+                        <ul style="margin-bottom: 15px;">
+                            <li>Continuously changes salt concentration</li>
+                            <li>Better peak resolution & separation</li>
+                            <li>Detects rare hemoglobin variants</li>
+                            <li>Better HbA1c accuracy (±2%)</li>
+                        </ul>
+                        <p style="color: #d32f2f; font-weight: 600; margin: 10px 0;">❌ Fixed-Concentration (Competitors)</p>
+                        <ul>
+                            <li>Limited separation resolution</li>
+                            <li>Misses rare variants</li>
+                            <li>Higher false-positive rates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REAGENT 4: Analytical Column -->
+        <div class="reagent-card">
+            <div class="reagent-header reagent-4">
+                <div class="reagent-icon">🔬</div>
+                <div>
+                    <h2>Analytical Column (Ion-Exchange Resin)</h2>
+                    <p>The "heart" of H-120 - separates hemoglobin by electrical charge</p>
+                </div>
+            </div>
+            <div class="reagent-content">
+                <div class="role-box">
+                    <strong>🎯 Primary Role:</strong> Separates hemoglobin variants by charge → Different retention times → Identified by peaks
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📋 Specifications</h3>
+                        <table class="spec-table">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Particle Size</strong></td>
+                                <td>~3 µm (industry-leading!)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td>Anion-exchange (strong)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lifespan</strong></td>
+                                <td>3,000-10,000 tests</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Max Pressure</strong></td>
+                                <td>25-30 MPa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Column Length</strong></td>
+                                <td>50-75 mm</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🧪 How Resin Separation Works</h3>
+                        <p style="margin-bottom: 10px;"><strong>Column Surface:</strong> Negatively charged (-O-SO₃⁻)</p>
+                        <div class="flow-diagram" style="text-align: left; background: white; border: 2px solid #6a1b9a;">
+                            <p><strong>HbA1c</strong> (charge +1) → Binds weakly → Elutes FIRST</p>
+                            <p style="margin-top: 10px;"><strong>HbS/C</strong> (charge +2) → Binds moderately → Elutes MIDDLE</p>
+                            <p style="margin-top: 10px;"><strong>HbA0</strong> (charge +3) → Binds strongly → Elutes LAST</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    <strong>🔧 Column Maintenance is Critical:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>Daily:</strong> System purge (2-3 cycles with Eluent A)</li>
+                        <li><strong>Weekly:</strong> Inject QC sample, check baseline</li>
+                        <li><strong>Monthly:</strong> Verify column efficiency (Resolution >1.5)</li>
+                        <li><strong>Replace if:</strong> CV% > 2% or pressure unstable</li>
+                    </ul>
+                </div>
+
+                <div class="troubleshooting">
+                    <h3 style="color: #1e3c72; margin-bottom: 15px;">🔧 Troubleshooting</h3>
+                    <div class="trouble-item">
+                        <div class="trouble-problem">❌ Peaks broadened or split</div>
+                        <div class="trouble-cause">🔍 Cause: Air bubbles in column or contamination</div>
+                        <div class="trouble-fix">✅ Fix: Run 20-min purge; if not resolved, replace column</div>
+                    </div>
+                    <div class="trouble-item">
+                        <div class="trouble-problem">❌ CV% gradually increasing</div>
+                        <div class="trouble-cause">🔍 Cause: Column packing degradation</div>
+                        <div class="trouble-fix">✅ Fix: Replace column (normal wear after 10K tests)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REAGENT 5: Filter -->
+        <div class="reagent-card">
+            <div class="reagent-header reagent-5">
+                <div class="reagent-icon">🔍</div>
+                <div>
+                    <h2>In-Line Sample Filter</h2>
+                    <p>Removes particulates before column injection</p>
+                </div>
+            </div>
+            <div class="reagent-content">
+                <div class="role-box">
+                    <strong>🎯 Primary Role:</strong> Filters out RBC remnants, clots, fibrin → Protects column → Maintains baseline stability
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-block">
+                        <h3>📋 Specifications</h3>
+                        <table class="spec-table">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Pore Size</strong></td>
+                                <td>10 µm</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Material</strong></td>
+                                <td>PTFE (Teflon)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lifespan</strong></td>
+                                <td>3,000 tests</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flow Rate</strong></td>
+                                <td>≥1 mL/min @ 15 MPa</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>⚠️ Filter Saturation Signs</h3>
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                            <p><strong>🔴 Replace filter immediately if:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>System pressure ↑ by >2 MPa</li>
+                                <li>Chromatogram baseline becomes noisy</li>
+                                <li>Peak broadening across all samples</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Analysis -->
+        <div style="background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%); color: white; padding: 40px; border-radius: 10px; margin: 40px 0;">
+            <h2 style="color: white; margin-bottom: 20px;">💰 Cost Optimization: H-120 Advantage</h2>
+            <div class="summary-grid">
+                <div class="summary-item" style="background: rgba(255,255,255,0.15);">
+                    <strong>Traditional HPLC</strong>
+                    <span>6 reagent cycles per test</span>
+                </div>
+                <div class="summary-item" style="background: rgba(255,255,255,0.15);">
+                    <strong>H-120 with PSD*</strong>
+                    <span>0.3 reagent cycles per test</span>
+                </div>
+                <div class="summary-item" style="background: rgba(34,139,34,0.5); border: 2px solid white;">
+                    <strong>Annual Savings</strong>
+                    <span>~$15,000-20,000 per 100K tests</span>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 13px; opacity: 0.9;">
+                *PSD = Pressure Storage Device (Patent ZL201610119446.5)<br>
+                Stores pressure between samples → eliminates rebuild cycles → 95% reagent waste reduction!
+            </p>
+        </div>
+
+        <!-- Final Summary -->
+        <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h2 style="color: #1e3c72; margin-bottom: 20px;">✅ Key Takeaways</h2>
+            <div class="summary-grid">
+                <div style="background: #f0f4ff; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                    <strong style="color: #667eea;">Hemolysis Solution</strong>
+                    <p style="font-size: 13px; margin-top: 10px;">Releases Hb from RBCs | Store 2-8°C | Check pH weekly</p>
+                </div>
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; border-left: 4px solid #1976d2;">
+                    <strong style="color: #1976d2;">Eluent A & B</strong>
+                    <p style="font-size: 13px; margin-top: 10px;">Gradient elution system | Critical pH 8.9-9.1 | Room temp storage</p>
+                </div>
+                <div style="background: #f3e5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #6a1b9a;">
+                    <strong style="color: #6a1b9a;">Column & Filter</strong>
+                    <p style="font-size: 13px; margin-top: 10px;">3µm particle separation | 3K-10K test lifespan | Monthly verification</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>H-120 Reagent & Consumables Guide</strong></p>
+        <p>Complete reference for hospital laboratory professionals</p>
+        <p style="margin-top: 15px; font-size: 12px;">
+            <a href="index.html">← Back to Home</a> |
+            <a href="https://github.com/wuttachai49/h120-guide">GitHub Repository</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 11px; opacity: 0.8;">
+            Updated: June 2026 | Based on Mindray H-120 Official Documentation (2025)
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-120 Guide - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255,255,255,0.98);
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        nav a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 32px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* Feature Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        /* Markets Section */
+        .markets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .market-badge {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .market-badge .flag {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .market-badge .name {
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .market-badge .desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid #667eea;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .learning-path h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .learning-path ol {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .learning-path li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Target Users */
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .user-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .user-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .user-card p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">🏠 Home</a></li>
+            <li><a href="H120-Chromatogram-Guide.html">📊 Chromatogram</a></li>
+            <li><a href="reagent-guide.html">🧪 Reagents</a></li>
+            <li><a href="project-summary.html">📋 Project</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>🔬 H-120 Educational Guide</h1>
+        <p>Interactive resources for hospital laboratory specialists worldwide</p>
+        <div class="hero-buttons">
+            <a href="H120-Chromatogram-Guide.html" class="btn btn-primary">View Chromatogram Guide</a>
+            <a href="reagent-guide.html" class="btn btn-secondary">Reagent Reference</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Overview Section -->
+        <div class="section">
+            <h2>What is the H-120?</h2>
+            <p style="font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                The <strong>Mindray H-120 Automated Glycohemoglobin Analyzer</strong> is a precision instrument used in clinical laboratories worldwide for HbA1c measurement. It employs Ion-Exchange HPLC technology to separate and quantify hemoglobin variants with exceptional accuracy.
+            </p>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">120</div>
+                    <div class="stat-label">Tests/Hour</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">CV ≤0.5%</div>
+                    <div class="stat-label">Precision</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">±2%</div>
+                    <div class="stat-label">IFCC Accuracy</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">10µL</div>
+                    <div class="stat-label">Sample Size</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="section">
+            <h2>Key Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Dynamic Sampling</h3>
+                    <p>Automatically adjusts sample volume based on hemoglobin levels (50-300 g/L)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Pressure Retention</h3>
+                    <p>Reduces reagent waste by 95% vs. competitors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧬</div>
+                    <h3>Variant Detection</h3>
+                    <p>Flags 6+ hemoglobin variants (HbS/C/D/E/rare variants)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>High Precision</h3>
+                    <p>CV ≤0.5% long-term precision over 21-day runs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Markets Section -->
+        <div class="section">
+            <h2>🌍 Global Markets</h2>
+            <p style="margin-bottom: 20px; color: #666;">Serving laboratory professionals across key worldwide markets:</p>
+            <div class="markets">
+                <div class="market-badge">
+                    <div class="flag">🇺🇸</div>
+                    <div class="name">United States</div>
+                    <div class="desc">Clinical standards, reimbursement</div>
+                </div>
+                <div class="market-badge">
+                    <div class="flag">🇨🇳</div>
+                    <div class="name">China</div>
+                    <div class="desc">Distribution networks</div>
+                </div>
+                <div class="market-badge">
+                    <div class="flag">🇮🇳</div>
+                    <div class="name">India</div>
+                    <div class="desc">Heat stability, bulk pricing</div>
+                </div>
+                <div class="market-badge">
+                    <div class="flag">🇪🇺</div>
+                    <div class="name">EU</div>
+                    <div class="desc">IVDR compliance</div>
+                </div>
+                <div class="market-badge">
+                    <div class="flag">🇻🇳</div>
+                    <div class="name">Vietnam</div>
+                    <div class="desc">Emerging market</div>
+                </div>
+                <div class="market-badge">
+                    <div class="flag">💰</div>
+                    <div class="name">GOLD</div>
+                    <div class="desc">Value investing focus</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Target Users Section -->
+        <div class="section">
+            <h2>👥 Who Should Use This Guide?</h2>
+            <div class="users-grid">
+                <div class="user-card">
+                    <h4>🏥 Hospital Lab Specialists</h4>
+                    <p>Learn HPLC principles, troubleshoot reagents, optimize quality control, and reduce costs.</p>
+                </div>
+                <div class="user-card">
+                    <h4>👨‍🎓 Medical Students</h4>
+                    <p>Understand ion-exchange chromatography, peak identification, and clinical applications.</p>
+                </div>
+                <div class="user-card">
+                    <h4>🔧 Lab Technicians</h4>
+                    <p>Step-by-step procedures, maintenance protocols, and troubleshooting guides.</p>
+                </div>
+                <div class="user-card">
+                    <h4>💼 Value Investors</h4>
+                    <p>Analyze H-120 competitive advantages and market positioning worldwide.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path -->
+        <div class="section">
+            <div class="learning-path">
+                <h3>📚 Recommended Learning Path (40 minutes)</h3>
+                <ol>
+                    <li><strong>Beginner (10 min):</strong> Read "What is H-120?" above</li>
+                    <li><strong>Intermediate (15 min):</strong> View the interactive <a href="H120-Chromatogram-Guide.html" style="color: #856404; font-weight: bold;">Chromatogram Guide</a></li>
+                    <li><strong>Advanced (15 min):</strong> Study the <a href="reagent-guide.html" style="color: #856404; font-weight: bold;">Reagent Reference</a> and troubleshooting</li>
+                    <li><strong>Expert (Optional):</strong> Review <a href="project-summary.html" style="color: #856404; font-weight: bold;">Project Summary</a> for comprehensive details</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Clinical Thresholds -->
+        <div class="section">
+            <h2>🏥 Clinical Decision Thresholds</h2>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background: #667eea; color: white;">
+                        <th style="padding: 12px; text-align: left;">HbA1c Level</th>
+                        <th style="padding: 12px; text-align: left;">Classification</th>
+                        <th style="padding: 12px; text-align: left;">Recommendation</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 12px;">&lt;5.7%</td>
+                        <td style="padding: 12px;"><strong>Normal</strong></td>
+                        <td style="padding: 12px;">No intervention needed</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 12px;">5.7-6.4%</td>
+                        <td style="padding: 12px;"><strong>Prediabetes</strong></td>
+                        <td style="padding: 12px;">Lifestyle modifications, follow-up testing</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 12px;">≥6.5%</td>
+                        <td style="padding: 12px;"><strong>DIABETES</strong></td>
+                        <td style="padding: 12px;">Medical intervention required</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px;">&gt;10%</td>
+                        <td style="padding: 12px;"><strong>Poor Control</strong></td>
+                        <td style="padding: 12px;">Intensive therapy adjustment</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 10px; text-align: center;">
+            <h2 style="color: white; border-bottom: 3px solid white;">Ready to Learn?</h2>
+            <p style="font-size: 16px; margin: 20px 0;">Choose your path:</p>
+            <div class="hero-buttons">
+                <a href="H120-Chromatogram-Guide.html" class="btn btn-primary">📊 View Interactive Chromatogram</a>
+                <a href="reagent-guide.html" class="btn btn-secondary">🧪 Explore Reagent Guide</a>
+                <a href="project-summary.html" class="btn btn-secondary">📋 See Project Details</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>H-120 Chromatogram Interpretation Guide</strong></p>
+        <p>Mindray Automated Glycohemoglobin Analyzer | IE-HPLC Technology</p>
+        <p style="margin-top: 15px; font-size: 12px;">
+            Based on official Mindray H-120 documentation (2025) |
+            <a href="https://github.com/wuttachai49/h120-guide">GitHub Repository</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 11px; opacity: 0.8;">
+            Updated: June 2026 | For educational use. Consult official documentation for clinical decisions.
+        </p>
+    </footer>
+</body>
+</html>
