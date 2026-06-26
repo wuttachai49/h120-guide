@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-120 Chromatogram Interpretation Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-container {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-box p {
+            color: #333;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .peak-legend {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .peak-legend h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .peak-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            align-items: start;
+        }
+
+        .peak-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .peak-info {
+            font-size: 13px;
+        }
+
+        .peak-info strong {
+            color: #1e3c72;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .peak-info span {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .interpretation {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .interpretation h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .interpretation ul {
+            margin-left: 20px;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .interpretation li {
+            margin-bottom: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        .reference-table thead {
+            background: #667eea;
+            color: white;
+        }
+
+        .reference-table th,
+        .reference-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .reference-table tbody tr:hover {
+            background: #f0f4ff;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .annotation-label {
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 H-120 Chromatogram Interpretation Guide</h1>
+            <p>Mindray Automated Glycohemoglobin Analyzer | IE-HPLC Analysis</p>
+        </div>
+
+        <div class="content">
+            <!-- Left Column: Chromatogram -->
+            <div class="chart-section">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('normal')">Normal Sample</button>
+                    <button class="tab-btn" onclick="switchTab('variant')">With Variant (HbS)</button>
+                </div>
+
+                <div id="normal" class="tab-content active">
+                    <div class="chart-container">
+                        <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Grid Background -->
+                            <defs>
+                                <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                                </pattern>
+                            </defs>
+                            <rect width="900" height="500" fill="url(#grid)"/>
+
+                            <!-- Axes -->
+                            <line x1="80" y1="420" x2="850" y2="420" stroke="#000" stroke-width="2"/>
+                            <line x1="80" y1="420" x2="80" y2="50" stroke="#000" stroke-width="2"/>
+
+                            <!-- Axis Labels -->
+                            <text x="875" y="430" font-size="12" font-weight="bold">Time (min)</text>
+                            <text x="20" y="100" font-size="12" font-weight="bold" transform="rotate(-90 40 100)">Absorbance (415nm)</text>
+
+                            <!-- Y-axis scale -->
+                            <text x="65" y="425" font-size="10" text-anchor="end">0</text>
+                            <text x="65" y="320" font-size="10" text-anchor="end">0.2</text>
+                            <text x="65" y="215" font-size="10" text-anchor="end">0.4</text>
+                            <text x="65" y="110" font-size="10" text-anchor="end">0.6</text>
+
+                            <!-- Y-axis grid lines -->
+                            <line x1="80" y1="320" x2="850" y2="320" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="80" y1="215" x2="850" y2="215" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="80" y1="110" x2="850" y2="110" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+
+                            <!-- X-axis scale -->
+                            <text x="80" y="445" font-size="10" text-anchor="middle">0</text>
+                            <text x="280" y="445" font-size="10" text-anchor="middle">2</text>
+                            <text x="480" y="445" font-size="10" text-anchor="middle">4</text>
+                            <text x="680" y="445" font-size="10" text-anchor="middle">6</text>
+                            <text x="850" y="445" font-size="10" text-anchor="middle">8</text>
+
+                            <!-- X-axis grid lines -->
+                            <line x1="280" y1="50" x2="280" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="480" y1="50" x2="480" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="680" y1="50" x2="680" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+
+                            <!-- Baseline -->
+                            <line x1="80" y1="410" x2="850" y2="410" stroke="#999" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+
+                            <!-- Peak 1: HbA1c (Lowest charge - elutes first, ~1.5 min) -->
+                            <path d="M 150 390 Q 180 250 210 390" stroke="#d32f2f" stroke-width="3" fill="none"/>
+                            <circle cx="180" cy="250" r="3" fill="#d32f2f"/>
+                            <line x1="180" y1="250" x2="180" y2="30" stroke="#d32f2f" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="180" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#d32f2f">HbA1c</text>
+                            <text x="180" y="35" font-size="11" text-anchor="middle" fill="#d32f2f">(1.5 min)</text>
+
+                            <!-- Peak 2: HbA0 (Higher charge - elutes later, ~3.0 min) -->
+                            <path d="M 380 390 Q 420 180 460 390" stroke="#1976d2" stroke-width="3" fill="none"/>
+                            <circle cx="420" cy="180" r="3" fill="#1976d2"/>
+                            <line x1="420" y1="180" x2="420" y2="30" stroke="#1976d2" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="420" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#1976d2">HbA0</text>
+                            <text x="420" y="35" font-size="11" text-anchor="middle" fill="#1976d2">(3.0 min)</text>
+
+                            <!-- Peak 3: HbA2 (Higher charge - elutes last, ~5.0 min) -->
+                            <path d="M 600 390 Q 630 250 660 390" stroke="#0097a7" stroke-width="3" fill="none"/>
+                            <circle cx="630" cy="250" r="3" fill="#0097a7"/>
+                            <line x1="630" y1="250" x2="630" y2="30" stroke="#0097a7" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="630" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#0097a7">HbA2</text>
+                            <text x="630" y="35" font-size="11" text-anchor="middle" fill="#0097a7">(5.0 min)</text>
+
+                            <!-- Legend box -->
+                            <rect x="50" y="450" width="800" height="35" fill="none" stroke="#999" stroke-width="1"/>
+                            <text x="70" y="470" font-size="12" font-weight="bold">✓ NORMAL PATTERN: All three peaks present with expected retention times. HbA1c% = (HbA1c Area / Total Area) × 100</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div id="variant" class="tab-content">
+                    <div class="chart-container">
+                        <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Grid Background -->
+                            <defs>
+                                <pattern id="grid2" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                                </pattern>
+                            </defs>
+                            <rect width="900" height="500" fill="url(#grid2)"/>
+
+                            <!-- Axes -->
+                            <line x1="80" y1="420" x2="850" y2="420" stroke="#000" stroke-width="2"/>
+                            <line x1="80" y1="420" x2="80" y2="50" stroke="#000" stroke-width="2"/>
+
+                            <!-- Axis Labels -->
+                            <text x="875" y="430" font-size="12" font-weight="bold">Time (min)</text>
+                            <text x="20" y="100" font-size="12" font-weight="bold" transform="rotate(-90 40 100)">Absorbance (415nm)</text>
+
+                            <!-- Y-axis scale -->
+                            <text x="65" y="425" font-size="10" text-anchor="end">0</text>
+                            <text x="65" y="320" font-size="10" text-anchor="end">0.2</text>
+                            <text x="65" y="215" font-size="10" text-anchor="end">0.4</text>
+                            <text x="65" y="110" font-size="10" text-anchor="end">0.6</text>
+
+                            <!-- Y-axis grid lines -->
+                            <line x1="80" y1="320" x2="850" y2="320" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="80" y1="215" x2="850" y2="215" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="80" y1="110" x2="850" y2="110" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+
+                            <!-- X-axis scale -->
+                            <text x="80" y="445" font-size="10" text-anchor="middle">0</text>
+                            <text x="280" y="445" font-size="10" text-anchor="middle">2</text>
+                            <text x="480" y="445" font-size="10" text-anchor="middle">4</text>
+                            <text x="680" y="445" font-size="10" text-anchor="middle">6</text>
+                            <text x="850" y="445" font-size="10" text-anchor="middle">8</text>
+
+                            <!-- X-axis grid lines -->
+                            <line x1="280" y1="50" x2="280" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="480" y1="50" x2="480" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="680" y1="50" x2="680" y2="420" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+
+                            <!-- Baseline -->
+                            <line x1="80" y1="410" x2="850" y2="410" stroke="#999" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
+
+                            <!-- Peak 1: HbA1c -->
+                            <path d="M 150 390 Q 180 250 210 390" stroke="#d32f2f" stroke-width="3" fill="none"/>
+                            <circle cx="180" cy="250" r="3" fill="#d32f2f"/>
+                            <line x1="180" y1="250" x2="180" y2="30" stroke="#d32f2f" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="180" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#d32f2f">HbA1c</text>
+
+                            <!-- NEW PEAK: HbS (Variant - elutes between HbA1c & HbA0, ~2.2 min) -->
+                            <path d="M 240 390 Q 290 150 340 390" stroke="#ff6f00" stroke-width="3" fill="none"/>
+                            <circle cx="290" cy="150" r="3" fill="#ff6f00"/>
+                            <line x1="290" y1="150" x2="290" y2="30" stroke="#ff6f00" stroke-width="2" stroke-dasharray="3,3"/>
+                            <text x="290" y="15" font-size="13" font-weight="bold" text-anchor="middle" fill="#ff6f00">⚠ HbS</text>
+                            <text x="290" y="30" font-size="11" text-anchor="middle" fill="#ff6f00">(Variant)</text>
+
+                            <!-- Peak 3: HbA0 -->
+                            <path d="M 420 390 Q 450 180 480 390" stroke="#1976d2" stroke-width="3" fill="none"/>
+                            <circle cx="450" cy="180" r="3" fill="#1976d2"/>
+                            <line x1="450" y1="180" x2="450" y2="30" stroke="#1976d2" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="450" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#1976d2">HbA0</text>
+
+                            <!-- Peak 4: HbA2 -->
+                            <path d="M 630 390 Q="660" y2="250" stroke="#0097a7" stroke-width="3" fill="none"/>
+                            <circle cx="660" cy="250" r="3" fill="#0097a7"/>
+                            <line x1="660" y1="250" x2="660" y2="30" stroke="#0097a7" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                            <text x="660" y="20" font-size="13" font-weight="bold" text-anchor="middle" fill="#0097a7">HbA2</text>
+
+                            <!-- Alert Box -->
+                            <rect x="50" y="450" width="800" height="35" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+                            <text x="70" y="470" font-size="12" font-weight="bold" fill="#856404">⚠ VARIANT DETECTED: Extra peak (HbS) present. System will flag as "Suspected variant" and automatically reflex to Variant Mode</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Information -->
+            <div class="info-section">
+                <div class="peak-legend">
+                    <h3>📊 Peak Identification & Retention Times</h3>
+
+                    <div class="peak-item">
+                        <div class="peak-color" style="background: #d32f2f;"></div>
+                        <div class="peak-info">
+                            <strong>HbA1c (Glycohemoglobin A1c)</strong>
+                            <span>Retention time: 1.5 min | Diagnostic target | Lowest positive charge</span>
+                        </div>
+                    </div>
+
+                    <div class="peak-item">
+                        <div class="peak-color" style="background: #ff6f00;"></div>
+                        <div class="peak-info">
+                            <strong>Hb Variants (e.g., HbS, HbC, HbD, HbE)</strong>
+                            <span>Retention time: 1.8-2.8 min | Flags variant interferences | Variable charge</span>
+                        </div>
+                    </div>
+
+                    <div class="peak-item">
+                        <div class="peak-color" style="background: #1976d2;"></div>
+                        <div class="peak-info">
+                            <strong>HbA0 (Non-glycated Hemoglobin A)</strong>
+                            <span>Retention time: 3.0 min | Baseline hemoglobin | Higher positive charge</span>
+                        </div>
+                    </div>
+
+                    <div class="peak-item">
+                        <div class="peak-color" style="background: #0097a7;"></div>
+                        <div class="peak-info">
+                            <strong>HbA2 (Hemoglobin A2)</strong>
+                            <span>Retention time: 5.0 min | β-thalassemia marker | Highest positive charge</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🔬 How IE-HPLC Separation Works</h3>
+                    <p><strong>Ion-Exchange Principle:</strong> Hemoglobin variants have different electrical charges. The gradient elution pushes components through a negatively-charged resin column:</p>
+                    <ul style="margin-top: 10px; margin-left: 15px;">
+                        <li><strong>Lowest charge (HbA1c):</strong> Elutes first (~1.5 min)</li>
+                        <li><strong>Intermediate charge (Variants):</strong> Elute in middle (~1.8-2.8 min)</li>
+                        <li><strong>Highest charge (HbA0, HbA2):</strong> Elute last (~3-5 min)</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Detection:</strong> Dual-wavelength absorbance at 415 nm (primary) & 500 nm (background reference) for hemoglobin quantitation.</p>
+                </div>
+
+                <div class="interpretation">
+                    <h3>✓ Interpretation Guidelines</h3>
+                    <ul>
+                        <li><strong>Normal Result:</strong> Three main peaks (HbA1c, HbA0, HbA2) with expected pattern. HbA1c% calculated from peak areas.</li>
+                        <li><strong>Variant Detected:</strong> Extra peak between HbA1c & HbA0 signals variant interference. System flags & reflexes to Variant Mode (60 T/H) for accurate HbA1c measurement.</li>
+                        <li><strong>CV ≤ 0.5%:</strong> Excellent repeatability within 21-day runs. Precision maintained even at 10,000 tests.</li>
+                        <li><strong>Clinical Decision Levels:</strong> HbA1c ≥6.5% = Diabetes diagnosis. Follow-up range: 5.7%-6.4%.</li>
+                        <li><strong>Reference Range (Normal):</strong> HbA1c 4.0%-5.6% (NGSP) or 20-38 mmol/mol (IFCC)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding: 30px; background: #f8f9fa; border-top: 1px solid #e0e0e0;">
+            <h3 style="color: #1e3c72; margin-bottom: 15px;">📋 Technical Reference Table</h3>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Hemoglobin Type</th>
+                        <th>Charge Level</th>
+                        <th>Elution Time (min)</th>
+                        <th>Clinical Significance</th>
+                        <th>Normal Range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>HbA1c</strong></td>
+                        <td>Lowest (+)</td>
+                        <td>~1.5</td>
+                        <td>2-3 month glucose control | Diabetes diagnostic marker</td>
+                        <td>4.0-5.6%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HbS</strong></td>
+                        <td>Intermediate</td>
+                        <td>~2.2</td>
+                        <td>Sickle cell trait/disease</td>
+                        <td>Flag if present</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HbC</strong></td>
+                        <td>Intermediate</td>
+                        <td>~2.0</td>
+                        <td>Hemoglobin C disease</td>
+                        <td>Flag if present</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HbA0</strong></td>
+                        <td>Higher (++)</td>
+                        <td>~3.0</td>
+                        <td>Non-glycated hemoglobin | Baseline reference</td>
+                        <td>94.4-98%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HbA2</strong></td>
+                        <td>Highest (+++)</td>
+                        <td>~5.0</td>
+                        <td>β-thalassemia screening marker</td>
+                        <td>2.4-3.6%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <strong>📚 H-120 Automated Glycohemoglobin Analyzer</strong> |
+            Mindray Bio-Medical Electronics Co., Ltd. |
+            <strong>Source:</strong> H-120 Technical Documentation & Training Materials |
+            <strong>Updated:</strong> June 2026
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
